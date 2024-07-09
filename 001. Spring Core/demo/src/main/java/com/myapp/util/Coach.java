@@ -1,4 +1,4 @@
-package com.myapp.demo;
+package com.myapp.util;
 
 
 public interface Coach {

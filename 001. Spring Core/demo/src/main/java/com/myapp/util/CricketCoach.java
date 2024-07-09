@@ -1,4 +1,4 @@
-package com.myapp.demo;
+package com.myapp.util;
 
 import org.springframework.stereotype.Component;
 

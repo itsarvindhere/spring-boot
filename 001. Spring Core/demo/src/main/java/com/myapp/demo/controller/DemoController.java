@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DemoController {
-    
+
+//    Field Injection
+//    @Autowired
     private Coach coach;
 
 //    Constructor Injection

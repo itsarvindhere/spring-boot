@@ -15,13 +15,13 @@ public class DemoController {
 
 //    Constructor Injection
     @Autowired
-    public DemoController(Coach cricketCoach) {
-        this.coach = cricketCoach;
+    public DemoController(Coach coach) {
+        this.coach = coach;
     }
 
 //    Setter Injection
 //    @Autowired
-//    public void getCoach(@Qualifier("cricketCoach") Coach coach) {
+//    public void getCoach(@Qualifier("coach") Coach coach) {
 //        this.coach = coach;
 //    }
 

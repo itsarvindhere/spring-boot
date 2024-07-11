@@ -12,12 +12,14 @@ public class DemoController {
 //    Field Injection
 //    @Autowired
     private Coach coach;
+    private Coach anotherCoach;
 
 //    Constructor Injection
     @Autowired
-    public DemoController(@Qualifier("cricketCoach") Coach coach) {
+    public DemoController(@Qualifier("cricketCoach") Coach coach, @Qualifier("cricketCoach") Coach anotherCoach) {
         System.out.println("In Constructor: " + getClass().getSimpleName());
         this.coach = coach;
+        this.anotherCoach = anotherCoach;
     }
 
 //    Setter Injection
@@ -29,5 +31,10 @@ public class DemoController {
     @GetMapping("/dailyworkout")
     String getWorkout() {
         return coach.getDailyWorkout();
+    }
+
+    @GetMapping("/check")
+    String check() {
+        return "Comparing beans: coach == anotherCoach, " + (coach == anotherCoach);
     }
 }

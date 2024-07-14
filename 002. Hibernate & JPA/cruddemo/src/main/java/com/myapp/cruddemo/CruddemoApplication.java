@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
@@ -37,14 +36,17 @@ public class CruddemoApplication implements CommandLineRunner {
 //		List<Student> students = studentDAO.findByLastName("stark");
 //		students.forEach(System.out::println);
 
-		Student student = studentDAO.findById(5);
+//		Student student = studentDAO.findById(5);
+//
+//		System.out.println("Before update, the student is: " + student);
+//
+//		student.setLastName("Test");
+//		studentDAO.update(student);
+//
+//		System.out.println("After update, the student is: " + student);
 
-		System.out.println("Before update, the student is: " + student);
-
-		student.setLastName("Test");
-		studentDAO.update(student);
-
-		System.out.println("After update, the student is: " + student);
+		Student tempStudent1 = new Student("Test", "Test", "test@google.com");
+		studentDAO.update(tempStudent1);
 
 	}
 

@@ -5,8 +5,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -50,5 +48,19 @@ public class StudentDAOImpl implements StudentDAO{
     @Transactional
     public void update(Student student) {
         entityManager.merge(student);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Student student) {
+        System.out.println("Student to delete: "+ student);
+        entityManager.remove(entityManager.merge(student));
+    }
+
+    @Override
+    @Transactional
+    public void deleteAll(){
+        System.out.println("Deleting all students");
+        entityManager.createQuery("DELETE FROM Student").executeUpdate();
     }
 }

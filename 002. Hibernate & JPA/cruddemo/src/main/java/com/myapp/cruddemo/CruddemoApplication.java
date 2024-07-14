@@ -31,11 +31,20 @@ public class CruddemoApplication implements CommandLineRunner {
 //		readStudent(5);
 //		readStudent(6);
 
-		getAllStudents();
+//		getAllStudents();
+//
+//		System.out.println("Students with last name as 'stark': ");
+//		List<Student> students = studentDAO.findByLastName("stark");
+//		students.forEach(System.out::println);
 
-		System.out.println("Students with last name as 'stark': ");
-		List<Student> students = studentDAO.findByLastName("stark");
-		students.forEach(System.out::println);
+		Student student = studentDAO.findById(5);
+
+		System.out.println("Before update, the student is: " + student);
+
+		student.setLastName("Test");
+		studentDAO.update(student);
+
+		System.out.println("After update, the student is: " + student);
 
 	}
 

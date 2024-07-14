@@ -48,8 +48,9 @@ public class CruddemoApplication implements CommandLineRunner {
 //		Student student = studentDAO.findById(5);
 //		studentDAO.delete(student);
 
-		studentDAO.deleteAll();
+//		studentDAO.deleteAll();
 
+		insertMultipleStudents();
 	}
 
 	public void insertMultipleStudents() {

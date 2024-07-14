@@ -36,17 +36,14 @@ public class CruddemoApplication implements CommandLineRunner {
 //		List<Student> students = studentDAO.findByLastName("stark");
 //		students.forEach(System.out::println);
 
-//		Student student = studentDAO.findById(5);
-//
-//		System.out.println("Before update, the student is: " + student);
-//
-//		student.setLastName("Test");
-//		studentDAO.update(student);
-//
-//		System.out.println("After update, the student is: " + student);
+		Student student = studentDAO.findById(5);
 
-		Student tempStudent1 = new Student("Test", "Test", "test@google.com");
-		studentDAO.update(tempStudent1);
+		System.out.println("Before update, the student is: " + student);
+
+		student.setLastName("Test");
+		studentDAO.update(student);
+
+		System.out.println("After update, the student is: " + student);
 
 	}
 

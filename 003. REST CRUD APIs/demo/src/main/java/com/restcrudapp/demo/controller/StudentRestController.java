@@ -3,10 +3,7 @@ package com.restcrudapp.demo.controller;
 
 import com.restcrudapp.demo.exception.StudentNotFoundException;
 import com.restcrudapp.demo.pojo.Student;
-import com.restcrudapp.demo.pojo.StudentErrorResponse;
 import jakarta.annotation.PostConstruct;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -30,7 +27,8 @@ public class StudentRestController {
 
     // Define endpoint for "/students" - return a list of students
     @GetMapping("/students")
-    public List<Student> getStudents() {
+    public List<Student> getStudents(@RequestHeader(value = "test", required = false) String test) {
+        System.out.println("Value of request header named test is: " + test);
         return students;
     }
 
@@ -42,5 +40,23 @@ public class StudentRestController {
             throw new StudentNotFoundException("Student id not found - " + id);
         }
         return students.get(id);
+    }
+
+    // Define endpoint for retrieving students with names starting with a specific letter
+    // This letter value is sent as a query parameter when the request is made
+    @GetMapping("/studentsbyname")
+    public List<Student> getStudentByMatchingLetter(@RequestParam(value = "startingLetter", required = false) String startingLetter) {
+
+        // If query parameter is not passed
+        if (startingLetter == null) return students;
+
+        return students.stream().filter(student -> student.getFirstName().toLowerCase().startsWith(startingLetter.toLowerCase())).toList();
+    }
+
+    // Add a new student
+    @PostMapping("/addstudent")
+    public List<Student> addStudent(@RequestBody Student student) {
+        students.add(student);
+        return students;
     }
 }

@@ -12,6 +12,6 @@ public class DemoRestController {
     // Add code for '/hello' endpoint
     @GetMapping("/hello")
     public String sayHello() {
-        return "Hello World!";
+        throw new RuntimeException("Some random exception thrown from another controller");
     }
 }

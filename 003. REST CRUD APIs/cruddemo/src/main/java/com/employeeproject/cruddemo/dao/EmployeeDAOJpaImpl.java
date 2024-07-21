@@ -41,14 +41,8 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO{
     }
 
     @Override
-    public void delete(int id) {
-
-        // Find the employee with the specific id in the database
-        Employee employee = entityManager.find(Employee.class, id);
-
-        // Delete the employee if it exists
-        if (null != employee) {
-            entityManager.remove(employee);
-        }
+    public void delete(Employee employee) {
+        // Delete the employee
+        entityManager.remove(entityManager.merge(employee));
     }
 }

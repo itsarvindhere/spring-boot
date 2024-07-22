@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "employee")
 //@NamedQuery(name = "Employee.findByFirstName",query = "SELECT e FROM Employee e WHERE firstName = :firstName")
-@NamedNativeQuery(name = "Employee.findByFirstName",query = "SELECT * FROM employee WHERE first_name = :firstName", resultClass = Employee.class)
+//@NamedNativeQuery(name = "Employee.findByFirstName",query = "SELECT * FROM employee WHERE first_name = :firstName", resultClass = Employee.class)
 public class Employee {
 
     // Fields

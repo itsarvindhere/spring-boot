@@ -9,6 +9,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(path = "members")
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
-//    @Query(value = "SELECT * FROM employee WHERE first_name = :firstName", nativeQuery = true)
-    Employee findByFirstName(@Param("firstName") String firstName);
+    Employee findByFirstName(String firstName);
 }

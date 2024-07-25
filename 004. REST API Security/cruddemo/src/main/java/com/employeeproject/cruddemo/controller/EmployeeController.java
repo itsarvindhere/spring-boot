@@ -18,8 +18,8 @@ public class EmployeeController {
     }
 
     // Find employee by first name
-    @GetMapping("employees/{firstName}")
-    public Employee findByFirstName(@PathVariable(value = "firstName") String firstName){
-        return employeeService.findByFirstName(firstName);
-    }
+//    @GetMapping("employees/{firstName}")
+//    public Employee findByFirstName(@PathVariable(value = "firstName") String firstName){
+//        return employeeService.findByFirstName(firstName);
+//    }
 }

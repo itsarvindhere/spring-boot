@@ -25,7 +25,14 @@ public class CruddemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		createInstructor(appDAO);
+//		createInstructor(appDAO);
+
+//		System.out.println("Querying the Instructor with id = 1");
+//		System.out.println(appDAO.findInstructorById(1));
+
+		System.out.println("Deleting the Instructor with id = 1");
+		appDAO.deleteInstructorById(1);
+		System.out.println("Instructor with id = 1 deleted!");
 
 	}
 

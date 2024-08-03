@@ -25,7 +25,20 @@ public class CruddemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		createInstructorWithCourses(appDAO);
+//		createInstructorWithCourses(appDAO);
+
+		findInstructorWithCourses(appDAO);
+	}
+
+	private void findInstructorWithCourses(AppDAO appDAO) {
+
+		int id = 1;
+
+		System.out.println("Finding instructor with id: "+ id);
+		Instructor instructor = appDAO.findInstructorById(id);
+		System.out.println("Instructor: " + instructor);
+		System.out.println("The associated courses: " + appDAO.findCoursesByInstructorId(instructor.getId()));
+		System.out.println("DONE!");
 	}
 
 	private void createInstructorWithCourses(AppDAO appDAO) {

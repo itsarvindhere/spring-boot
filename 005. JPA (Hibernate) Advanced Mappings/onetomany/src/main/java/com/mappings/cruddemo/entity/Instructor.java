@@ -85,7 +85,6 @@ public class Instructor {
         this.instructorDetail = instructorDetail;
     }
 
-
     public List<Course> getCourses() {
         return courses;
     }

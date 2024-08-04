@@ -31,7 +31,18 @@ public class CruddemoApplication implements CommandLineRunner {
 
 //		updateInstructor(appDAO);
 
-		updateCourse(appDAO);
+//		updateCourse(appDAO);
+
+//		int id = 3;
+//
+//		System.out.println("Deleting the instructor with id: " + id);
+//		appDAO.deleteInstructorById(id);
+//		System.out.println("INSTRUCTOR DELETED");
+
+		int id = 10;
+		System.out.println("Deleting the course with id: " + id);
+		appDAO.deleteCourseById(id);
+		System.out.println("COURSE DELETED");
 	}
 
 	private void findInstructorWithCourses(AppDAO appDAO) {

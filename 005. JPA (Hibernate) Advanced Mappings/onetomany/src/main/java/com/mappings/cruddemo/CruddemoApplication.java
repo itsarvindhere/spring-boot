@@ -4,6 +4,7 @@ import com.mappings.cruddemo.dao.AppDAO;
 import com.mappings.cruddemo.entity.Course;
 import com.mappings.cruddemo.entity.Instructor;
 import com.mappings.cruddemo.entity.InstructorDetail;
+import com.mappings.cruddemo.entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -39,10 +40,32 @@ public class CruddemoApplication implements CommandLineRunner {
 //		appDAO.deleteInstructorById(id);
 //		System.out.println("INSTRUCTOR DELETED");
 
-		int id = 10;
-		System.out.println("Deleting the course with id: " + id);
-		appDAO.deleteCourseById(id);
-		System.out.println("COURSE DELETED");
+//		int id = 10;
+//		System.out.println("Deleting the course with id: " + id);
+//		appDAO.deleteCourseById(id);
+//		System.out.println("COURSE DELETED");
+
+//		createCourseAndReviews(appDAO);
+
+//		int id = 10;
+//		System.out.println("Finding the course with id: " + 10);
+//		Course course = appDAO.findCourseAndReviewsByCourseId(id);
+//		System.out.println("Course is: " + course);
+//		System.out.println("Reviews are: " + course.getReviews());
+
+		deleteCourseAndReviews(appDAO);
+	}
+
+	private void createCourseAndReviews(AppDAO appDAO) {
+		Course course = new Course("A Course with Reviews");
+
+		Review review1 = new Review("Good Course!");
+		Review review2 = new Review("I liked it!");
+
+		course.add(review1);
+		course.add(review2);
+
+		appDAO.save(course);
 	}
 
 	private void findInstructorWithCourses(AppDAO appDAO) {
@@ -122,6 +145,14 @@ public class CruddemoApplication implements CommandLineRunner {
 		appDAO.update(course);
 
 		System.out.println("COURSE UPDATED!");
+	}
+
+	private void deleteCourseAndReviews(AppDAO appDAO) {
+		int id = 10;
+
+		System.out.println("Deleting the course with id: "+ id);
+		appDAO.deleteCourseById(id);
+		System.out.println("COURSE DELETED");
 	}
 }
 

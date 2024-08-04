@@ -27,7 +27,11 @@ public class CruddemoApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 //		createInstructorWithCourses(appDAO);
 
-		findInstructorWithCoursesJoinFetch(appDAO);
+//		findInstructorWithCoursesJoinFetch(appDAO);
+
+//		updateInstructor(appDAO);
+
+		updateCourse(appDAO);
 	}
 
 	private void findInstructorWithCourses(AppDAO appDAO) {
@@ -77,4 +81,36 @@ public class CruddemoApplication implements CommandLineRunner {
 		appDAO.save(instructor);
 		System.out.println("Done!");
 	}
+
+
+	private void updateInstructor(AppDAO appDAO) {
+		int id = 1;
+
+		System.out.println("Finding instructor with id: "+ id);
+		Instructor instructor = appDAO.findInstructorById(id);
+		System.out.println("Instructor: " + instructor);
+
+		System.out.println("Updating the Instructor with id: "+ id);
+		instructor.setLastName("TESTER2");
+
+		appDAO.update(instructor);
+
+		System.out.println("INSTRUCTOR UPDATED!");
+	}
+
+	private void updateCourse(AppDAO appDAO) {
+		int id = 10;
+
+		System.out.println("Finding course with id: "+ id);
+		Course course = appDAO.findCourseById(id);
+		System.out.println("Course: " + course);
+
+		System.out.println("Updating the course with id: "+ 10);
+		course.setTitle("A New Updated Title");
+
+		appDAO.update(course);
+
+		System.out.println("COURSE UPDATED!");
+	}
 }
+

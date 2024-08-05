@@ -60,11 +60,37 @@ public class CruddemoApplication implements CommandLineRunner {
 //		System.out.println("Course is: " + course);
 //		System.out.println("Students are: " + course.getStudents());
 
+//		int id = 1;
+//		System.out.println("Finding the student with id: " + 10);
+//		Student student = appDAO.findStudentAndCourseByStudentId(id);
+//		System.out.println("Student is: " + student);
+//		System.out.println("Courses are: " + student.getCourses());
+
+		findStudentAndAddCourses(appDAO);
+
+	}
+
+	private void findStudentAndAddCourses(AppDAO appDAO) {
+
+		// Find the student
 		int id = 1;
-		System.out.println("Finding the student with id: " + 10);
+		System.out.println("Finding the student with id: " + 1);
 		Student student = appDAO.findStudentAndCourseByStudentId(id);
 		System.out.println("Student is: " + student);
 		System.out.println("Courses are: " + student.getCourses());
+
+		// Create a couple of new courses for the student
+		Course course1 = new Course("Understanding Networks");
+		Course course2 = new Course("Object-Oriented Programming");
+
+		// Add the courses to the list of courses
+		student.add(course1);
+		student.add(course2);
+
+		// Call the DAO method to update the student
+		appDAO.update(student);
+
+		System.out.println("STUDENT UPDATED");
 
 	}
 

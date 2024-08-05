@@ -54,11 +54,18 @@ public class CruddemoApplication implements CommandLineRunner {
 
 //		createCourseAndStudents(appDAO);
 
-		int id = 10;
-		System.out.println("Finding the course with id: " + 10);
-		Course course = appDAO.findCourseAndStudentsByCourseId(id);
-		System.out.println("Course is: " + course);
-		System.out.println("Students are: " + course.getStudents());
+//		int id = 10;
+//		System.out.println("Finding the course with id: " + 10);
+//		Course course = appDAO.findCourseAndStudentsByCourseId(id);
+//		System.out.println("Course is: " + course);
+//		System.out.println("Students are: " + course.getStudents());
+
+		int id = 1;
+		System.out.println("Finding the student with id: " + 10);
+		Student student = appDAO.findStudentAndCourseByStudentId(id);
+		System.out.println("Student is: " + student);
+		System.out.println("Courses are: " + student.getCourses());
+
 	}
 
 	private void createCourseAndReviews(AppDAO appDAO) {

@@ -1,10 +1,7 @@
 package com.mappings.cruddemo;
 
 import com.mappings.cruddemo.dao.AppDAO;
-import com.mappings.cruddemo.entity.Course;
-import com.mappings.cruddemo.entity.Instructor;
-import com.mappings.cruddemo.entity.InstructorDetail;
-import com.mappings.cruddemo.entity.Review;
+import com.mappings.cruddemo.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -53,7 +50,9 @@ public class CruddemoApplication implements CommandLineRunner {
 //		System.out.println("Course is: " + course);
 //		System.out.println("Reviews are: " + course.getReviews());
 
-		deleteCourseAndReviews(appDAO);
+//		deleteCourseAndReviews(appDAO);
+
+		createCourseAndStudents(appDAO);
 	}
 
 	private void createCourseAndReviews(AppDAO appDAO) {
@@ -153,6 +152,26 @@ public class CruddemoApplication implements CommandLineRunner {
 		System.out.println("Deleting the course with id: "+ id);
 		appDAO.deleteCourseById(id);
 		System.out.println("COURSE DELETED");
+	}
+
+	private void createCourseAndStudents(AppDAO appDAO) {
+
+		// Create a new Course
+		Course course = new Course("Understanding Many-to-Many Mapping");
+
+		// Create the students
+		Student student1 = new Student("John", "Doe", "john@gmail.com");
+		Student student2 = new Student("Mary", "Kom", "mary@gmail.com");
+
+		// Add the students to the course
+		course.add(student1);
+		course.add(student2);
+
+		System.out.println("Saving the course: "+ course);
+		System.out.println("Associated students: "+ course.getStudents());
+
+		// Save the course to the database and this will also save the students due to CASCADING
+		appDAO.save(course);
 	}
 }
 

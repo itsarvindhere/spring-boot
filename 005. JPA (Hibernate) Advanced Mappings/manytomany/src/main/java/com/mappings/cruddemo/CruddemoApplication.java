@@ -66,7 +66,17 @@ public class CruddemoApplication implements CommandLineRunner {
 //		System.out.println("Student is: " + student);
 //		System.out.println("Courses are: " + student.getCourses());
 
-		findStudentAndAddCourses(appDAO);
+//		findStudentAndAddCourses(appDAO);
+
+//		int id = 10;
+//		System.out.println("Deleting the course with id: " + id);
+//		appDAO.deleteCourseById(id);
+//		System.out.println("COURSE DELETED");
+
+		int id = 2;
+		System.out.println("Deleting the student with id: " + id);
+		appDAO.deleteStudentById(id);
+		System.out.println("STUDENT DELETED");
 
 	}
 

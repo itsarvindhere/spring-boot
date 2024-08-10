@@ -14,8 +14,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String addAccount() {
-        System.out.println(getClass() + ": CALLING DAO METHOD: ADDING AN ACCOUNT");
-        this.accountDAO.addAccount();
+        System.out.println(getClass() + ": INSIDE ADD ACCOUNT METHOD IN SERVICE CLASS");
         return "Hello World";
     }
 }

@@ -27,14 +27,18 @@ public class AopdemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		this.accountService.addAccount();
-
 		this.accountDAO.addAccount();
 
 		Account account = new Account("1", "John");
 		this.accountDAO.addAccount(account);
 
 		this.accountDAO.addAccount(account, true);
+
+		this.accountDAO.setName("John");
+		this.accountDAO.getName();
+
+		this.accountDAO.setServiceCode("1234");
+		this.accountDAO.getServiceCode();
 
 		this.membershipDAO.addMember();
 	}

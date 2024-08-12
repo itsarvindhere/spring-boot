@@ -1,9 +1,11 @@
 package com.example.aopdemo.aspect;
 
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +22,16 @@ public class LoggingAspect extends PointcutDeclarations {
 //    @Before("execution(* add*(..))")   <- THIS MATCHES ANY METHOD THAT STARTS WITH "add" AND TAKES 0 or MORE ARGUMENTS
 //    @Before("execution(* com.example.aopdemo.dao.*.*(..))") <- THIS MATCHES ANY METHOD INSIDE "dao" PACKAGE THAT TAKES 0 OR MORE ARGUMENTS
     @Before("matchAnyMethodInDaoPackage() && !matchGetterAndSetterMethodsInDaoPackage()")
-    public void beforeAddAccountAdvice() {
+    public void beforeAddAccountAdvice(JoinPoint joinPoint) {
+
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        System.out.println("Method Signature is :" + methodSignature);
+
+        Object[] args = joinPoint.getArgs();
+        System.out.println("Method arguments are: ");
+        for(Object arg: args) {
+            System.out.println(arg);
+        }
         System.out.println("\n=====>>> Executing @Before advice on addAccount()");
     }
 

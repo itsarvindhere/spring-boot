@@ -4,25 +4,13 @@ package com.example.aopdemo.aspect;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class LoggingAspect {
-
-//    Pointcut Declarations
-
-    @Pointcut("execution(* com.example.aopdemo.dao.*.*(..))")
-    private void matchAnyMethodInDaoPackage() {}
-
-    @Pointcut("execution(* com.example.aopdemo.dao.*.get*(..))")
-    private void matchGetterMethodsInDaoPackage() {}
-
-    @Pointcut("execution(* com.example.aopdemo.dao.*.set*(..))")
-    private void matchSetterMethodsInDaoPackage() {}
-
-    @Pointcut("matchGetterMethodsInDaoPackage() || matchSetterMethodsInDaoPackage()")
-    private void matchGetterAndSetterMethodsInDaoPackage() {}
+@Order(2)
+public class LoggingAspect extends PointcutDeclarations {
 
 //    @Before("execution(public void addAccount())") <- THIS MATCHES ON ANY public void addAccount() method call
 //    @Before("execution(public void com.example.aopdemo.dao.AccountDAO.addAccount())") <- THIS MATCHES ON the public void addAccount() method of the AccountDAO class only
@@ -36,13 +24,4 @@ public class LoggingAspect {
         System.out.println("\n=====>>> Executing @Before advice on addAccount()");
     }
 
-    @Before("matchAnyMethodInDaoPackage() && !matchGetterAndSetterMethodsInDaoPackage()")
-    public void performApiAnalytics() {
-        System.out.println("\n=====>>> Performing API analytics");
-    }
-
-    @Before("matchAnyMethodInDaoPackage() && !matchGetterAndSetterMethodsInDaoPackage()")
-    public void forAllDaoMethodsExceptGetterSetters() {
-        System.out.println("\n=====>>> This advice won't be applied to getters and setters of the 'dao' package");
-    }
 }

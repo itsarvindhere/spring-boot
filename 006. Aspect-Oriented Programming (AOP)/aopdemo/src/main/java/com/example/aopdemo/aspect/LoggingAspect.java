@@ -52,6 +52,12 @@ public class LoggingAspect extends PointcutDeclarations {
 
         // Print out the results of the method call
         System.out.println("\n=====>>> Returned value is: " + result);
+
+        // Updating the name of the first Account
+        if (!result.isEmpty()) {
+            Account account = result.get(0);
+            account.setName("James");
+        }
     }
 
 }

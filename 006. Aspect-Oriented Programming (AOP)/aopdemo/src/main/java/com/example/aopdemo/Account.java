@@ -4,6 +4,8 @@ public class Account {
     private String name;
     private String level;
 
+    public Account() {}
+
     public Account(String level, String name) {
         this.level = level;
         this.name = name;

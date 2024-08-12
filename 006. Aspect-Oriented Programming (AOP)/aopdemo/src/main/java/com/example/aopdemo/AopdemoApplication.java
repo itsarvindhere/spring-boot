@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
+
 @SpringBootApplication
 public class AopdemoApplication implements CommandLineRunner {
 
@@ -27,6 +29,19 @@ public class AopdemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+//		methodCallsForBeforeAdvice();
+
+		methodCallsForAfterReturningAdvice();
+
+	}
+
+	void methodCallsForAfterReturningAdvice() {
+		List<Account> accounts = this.accountDAO.findAccounts();
+		System.out.println("Method findAccounts() called from the main Class.");
+		System.out.println("Accounts are :" + accounts);
+	}
+
+	void methodCallsForBeforeAdvice() {
 		this.accountDAO.addAccount();
 
 		Account account = new Account("1", "John");

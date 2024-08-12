@@ -2,6 +2,8 @@ package com.example.aopdemo.dao;
 
 import com.example.aopdemo.Account;
 
+import java.util.List;
+
 public interface AccountDAO {
 
     void addAccount();
@@ -15,4 +17,6 @@ public interface AccountDAO {
 
     String getName();
     void setName(String name);
+
+    List<Account> findAccounts();
 }

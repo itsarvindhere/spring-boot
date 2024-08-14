@@ -72,4 +72,12 @@ public class LoggingAspect extends PointcutDeclarations {
         System.out.println("Exception thrown is: "+ exception);
     }
 
+    @After("execution(* com.example.aopdemo.dao.AccountDAO.findAccounts(..))")
+    public void afterFindAccountsAdvice(JoinPoint joinPoint) {
+
+        // Print out which method we are advising on
+        String method = joinPoint.getSignature().toShortString();
+        System.out.println("\n=====>>> Executing @After on method: " + method);
+    }
+
 }

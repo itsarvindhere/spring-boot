@@ -33,8 +33,23 @@ public class AopdemoApplication implements CommandLineRunner {
 
 //		methodCallsForAfterReturningAdvice();
 
-		methodCallsForAfterThrowingAdvice();
+//		methodCallsForAfterThrowingAdvice();
 
+		methodCallsForAfterAdvice();
+
+	}
+
+	void methodCallsForAfterAdvice() {
+		List<Account> accounts = null;
+
+		try {
+			accounts = this.accountDAO.findAccounts(true);
+		} catch (Exception e) {
+			System.out.println("\n\nMain Program: ... caught exception: " + e);
+		}
+
+		System.out.println("\n\nMain Program: methodCallsForAfterThrowingAdvice");
+		System.out.println("Accounts are :" + accounts);
 	}
 
 	void methodCallsForAfterThrowingAdvice() {

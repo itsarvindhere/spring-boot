@@ -31,12 +31,27 @@ public class AopdemoApplication implements CommandLineRunner {
 
 //		methodCallsForBeforeAdvice();
 
-		methodCallsForAfterReturningAdvice();
+//		methodCallsForAfterReturningAdvice();
+
+		methodCallsForAfterThrowingAdvice();
 
 	}
 
-	void methodCallsForAfterReturningAdvice() {
-		List<Account> accounts = this.accountDAO.findAccounts();
+	void methodCallsForAfterThrowingAdvice() {
+		List<Account> accounts = null;
+
+		try {
+			accounts = this.accountDAO.findAccounts(true);
+		} catch (Exception e) {
+			System.out.println("\n\nMain Program: ... caught exception: " + e);
+		}
+
+		System.out.println("\n\nMain Program: methodCallsForAfterThrowingAdvice");
+		System.out.println("Accounts are :" + accounts);
+	}
+
+	void methodCallsForAfterReturningAdvice() throws Exception {
+		List<Account> accounts = this.accountDAO.findAccounts(false);
 		System.out.println("Method findAccounts() called from the main Class.");
 		System.out.println("Accounts are :" + accounts);
 	}

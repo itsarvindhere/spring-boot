@@ -3,10 +3,7 @@ package com.example.aopdemo.aspect;
 
 import com.example.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -58,6 +55,21 @@ public class LoggingAspect extends PointcutDeclarations {
             Account account = result.get(0);
             account.setName("James");
         }
+    }
+
+
+    @AfterThrowing(
+            pointcut = "execution(* com.example.aopdemo.dao.AccountDAO.findAccounts(..))",
+            throwing = "exception"
+    )
+    public void afterReturningFindAccountsAdvice(JoinPoint joinPoint, Exception exception) {
+
+        // Print out which method we are advising on
+        String method = joinPoint.getSignature().toShortString();
+        System.out.println("\n=====>>> Executing @AfterReturning on method: " + method);
+
+        // Print the exception thrown
+        System.out.println("Exception thrown is: "+ exception);
     }
 
 }

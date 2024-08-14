@@ -29,7 +29,11 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public List<Account> findAccounts() {
+    public List<Account> findAccounts(boolean tripWire) throws Exception {
+
+        // Throw an exception to test afterThrowing advice
+        if (tripWire) throw new Exception("Exception thrown from findAccounts() method!");
+
         List<Account> accounts = new ArrayList<>();
 
         Account account1 = new Account("Silver", "John");

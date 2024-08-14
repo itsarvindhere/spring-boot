@@ -18,5 +18,5 @@ public interface AccountDAO {
     String getName();
     void setName(String name);
 
-    List<Account> findAccounts();
+    List<Account> findAccounts(boolean tripWire) throws Exception;
 }

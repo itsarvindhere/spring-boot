@@ -8,14 +8,13 @@ import java.util.concurrent.TimeUnit;
 public class TrafficFortuneServiceImpl implements TrafficFortuneService{
 
     @Override
-    public String getFortune() {
+    public String getFortune(boolean tripWire) throws Exception {
+
+        // Throw an exception if flag is true
+        if (tripWire) throw new Exception("Major accident! Highway is closed!");
 
         // Simulate a delay
-        try {
-            TimeUnit.SECONDS.sleep(5);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        TimeUnit.SECONDS.sleep(5);
 
         // Return a fortune
         return "Expect heavy traffic this morning!";

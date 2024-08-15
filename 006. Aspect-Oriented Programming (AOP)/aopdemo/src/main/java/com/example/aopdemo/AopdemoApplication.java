@@ -43,12 +43,12 @@ public class AopdemoApplication implements CommandLineRunner {
 		methodCallsForAroundAdvice();
 	}
 
-	void methodCallsForAroundAdvice() {
+	void methodCallsForAroundAdvice() throws Exception {
 		System.out.println("\n\nMain Program: methodCallsForAroundAdvice");
 
 		System.out.println("Calling getFortune()");
 
-		String data = this.trafficFortuneService.getFortune();
+		String data = this.trafficFortuneService.getFortune(true);
 
 		System.out.println("\n My fortune is:  "+ data);
 

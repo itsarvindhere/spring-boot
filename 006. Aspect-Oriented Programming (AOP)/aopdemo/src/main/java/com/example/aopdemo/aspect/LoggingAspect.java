@@ -93,7 +93,16 @@ public class LoggingAspect extends PointcutDeclarations {
         long begin = System.currentTimeMillis();
 
         // Execute the method
-        Object result = pjp.proceed();
+        Object result = null;
+
+        try {
+            result = pjp.proceed();
+        } catch (Exception e) {
+            System.out.println("Exception thrown: " + e.getMessage());
+//            result = "Major accident! But no worries, your private AOP helicoper is on the way!";
+            throw e;
+        }
+
 
         // Get the end timestamp
         long end = System.currentTimeMillis();

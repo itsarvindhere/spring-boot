@@ -3,6 +3,7 @@ package com.example.aopdemo.aspect;
 
 import com.example.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
@@ -78,6 +79,31 @@ public class LoggingAspect extends PointcutDeclarations {
         // Print out which method we are advising on
         String method = joinPoint.getSignature().toShortString();
         System.out.println("\n=====>>> Executing @After on method: " + method);
+    }
+
+
+    @Around("execution(* com.example.aopdemo.service.*.getFortune(..))")
+    public Object aroundGetFortuneAdvice(ProceedingJoinPoint pjp) throws Throwable {
+
+        // Print out the method we are advising on
+        String method = pjp.getSignature().toShortString();
+        System.out.println("\n=====>>> Executing @Around on method: " + method);
+
+        // Get the begin timestamp
+        long begin = System.currentTimeMillis();
+
+        // Execute the method
+        Object result = pjp.proceed();
+
+        // Get the end timestamp
+        long end = System.currentTimeMillis();
+
+        // Compute the duration and display it
+        long duration = end - begin;
+        System.out.println("Time taken by the getFortune() method to execute: " + duration/1000.0 + " seconds");
+
+        // Return the data back to the calling program
+        return result;
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.aopdemo;
 import com.example.aopdemo.dao.AccountDAO;
 import com.example.aopdemo.dao.MembershipDAO;
 import com.example.aopdemo.service.AccountService;
+import com.example.aopdemo.service.TrafficFortuneService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,11 +16,13 @@ public class AopdemoApplication implements CommandLineRunner {
 	private final AccountDAO accountDAO;
 	private final AccountService accountService;
 	private final MembershipDAO membershipDAO;
+	private final TrafficFortuneService trafficFortuneService;
 
-	public AopdemoApplication(AccountDAO accountDAO, AccountService accountService, MembershipDAO membershipDAO) {
+	public AopdemoApplication(AccountDAO accountDAO, AccountService accountService, MembershipDAO membershipDAO, TrafficFortuneService trafficFortuneService) {
 		this.accountDAO = accountDAO;
 		this.accountService = accountService;
 		this.membershipDAO = membershipDAO;
+		this.trafficFortuneService = trafficFortuneService;
 	}
 
 	public static void main(String[] args) {
@@ -35,8 +38,21 @@ public class AopdemoApplication implements CommandLineRunner {
 
 //		methodCallsForAfterThrowingAdvice();
 
-		methodCallsForAfterAdvice();
+//		methodCallsForAfterAdvice();
 
+		methodCallsForAroundAdvice();
+	}
+
+	void methodCallsForAroundAdvice() {
+		System.out.println("\n\nMain Program: methodCallsForAroundAdvice");
+
+		System.out.println("Calling getFortune()");
+
+		String data = this.trafficFortuneService.getFortune();
+
+		System.out.println("\n My fortune is:  "+ data);
+
+		System.out.println("Finished");
 	}
 
 	void methodCallsForAfterAdvice() {

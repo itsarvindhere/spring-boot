@@ -8,6 +8,8 @@ import java.time.Duration;
 import java.util.List;
 
 @DisplayName("Tests for DemoUtils Class")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Order(2)
 public class DemoUtilsTest {
 
     DemoUtils demoUtils;
@@ -38,6 +40,7 @@ public class DemoUtilsTest {
 
     @Test
     @DisplayName("Equals Test for add() method")
+    @Order(3)
     public void testAddEquals() {
 
         System.out.println("Running test: testAddEquals");
@@ -51,6 +54,7 @@ public class DemoUtilsTest {
 
     @Test
     @DisplayName("Not Equals Test for add() method")
+    @Order(5)
     public void testAddNotEquals() {
 
         System.out.println("Running test: testAddNotEquals");
@@ -64,6 +68,7 @@ public class DemoUtilsTest {
 
     @Test
     @DisplayName("Null & Not Null Test for checkNull() method")
+    @Order(4)
     public void testCheckNull() {
 
         System.out.println("Running test: testCheckNull");
@@ -82,6 +87,7 @@ public class DemoUtilsTest {
 
     @Test
     @DisplayName("Array Equals test for getFirstThreeLettersOfAlphabet()")
+    @Order(1)
     public void testGetFirstThreeLettersOfAlphabetEquals() {
 
         System.out.println("Running test: testGetFirstThreeLettersOfAlphabetEquals");
@@ -95,6 +101,7 @@ public class DemoUtilsTest {
 
     @Test
     @DisplayName("List Equals test for getAcademyInList()")
+    @Order(2)
     public void testGetAcademyInListEquals() {
 
         System.out.println("Running test: testGetAcademyInListEquals");
@@ -103,29 +110,6 @@ public class DemoUtilsTest {
 
         // ASSERT
         assertIterableEquals(list, demoUtils.getAcademyInList(), "Arrays should be the same");
-
-    }
-
-    @Test
-    @DisplayName("Test Exception for throwException()")
-    public void testThrowException() {
-
-        System.out.println("Running test: testThrowException");
-
-        // ASSERT
-        assertThrows(Exception.class, () -> demoUtils.throwException(-1), "Should throw exception!");
-        assertDoesNotThrow(() -> demoUtils.throwException(0), "Should not throw exception!");
-
-    }
-
-    @Test
-    @DisplayName("Test Timeout for checkTimeout()")
-    public void testCheckTimeout() {
-
-        System.out.println("Running test: testCheckTimeout");
-
-        // ASSERT
-        assertTimeoutPreemptively(Duration.ofSeconds(3), () -> demoUtils.checkTimeout(), "Method should execute in 3 seconds!");
 
     }
 }

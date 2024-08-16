@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
 
-@DisplayNameGeneration(DisplayNameGenerator.Standard.class)
+@DisplayName("Tests for DemoUtils Class")
 public class DemoUtilsTest {
 
     DemoUtils demoUtils;
@@ -34,7 +34,7 @@ public class DemoUtilsTest {
 
 
     @Test
-//    @DisplayName("Equals Test for add() method")
+    @DisplayName("Equals Test for add() method")
     public void testAddEquals() {
 
         System.out.println("Running test: testAddEquals");

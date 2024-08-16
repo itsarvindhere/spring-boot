@@ -2,15 +2,40 @@ package com.example.junitdemo;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 public class DemoUtilsTest {
+
+    DemoUtils demoUtils;
+
+    @BeforeAll
+    public static void initOnce() {
+        System.out.println("BeforeAll executes only once in the beginning!");
+    }
+
+    @BeforeEach
+    public void init() {
+
+        // SETUP
+        demoUtils = new DemoUtils();
+        System.out.println("BeforeEach executes before the execution of each test method!");
+    }
+
+    @AfterEach
+    public void cleanup() {
+        System.out.println("AfterEach executes after the execution of each test method! \n");
+    }
+
+    @AfterAll
+    public static void cleanupOnce() {
+        System.out.println("AfterAll executes only once in the beginning!");
+    }
+
 
     @Test
     public void testAddEquals() {
 
-        // SETUP
-        DemoUtils demoUtils = new DemoUtils();
+        System.out.println("Running test: testAddEquals");
 
         // EXECUTE
         int actual = demoUtils.add(2,4);
@@ -22,8 +47,7 @@ public class DemoUtilsTest {
     @Test
     public void testAddNotEquals() {
 
-        // SETUP
-        DemoUtils demoUtils = new DemoUtils();
+        System.out.println("Running test: testAddNotEquals");
 
         // EXECUTE
         int actual = demoUtils.add(2,4);
@@ -34,6 +58,8 @@ public class DemoUtilsTest {
 
     @Test
     public void testCheckNull() {
+
+        System.out.println("Running test: testCheckNull");
 
         // SETUP
         DemoUtils demoUtils = new DemoUtils();

@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
 
+import java.time.Duration;
+import java.util.List;
+
 @DisplayName("Tests for DemoUtils Class")
 public class DemoUtilsTest {
 
@@ -65,9 +68,6 @@ public class DemoUtilsTest {
 
         System.out.println("Running test: testCheckNull");
 
-        // SETUP
-        DemoUtils demoUtils = new DemoUtils();
-
         // EXECUTE
         Object obj1 = null;
         Object obj2 = "Hello World";
@@ -78,5 +78,54 @@ public class DemoUtilsTest {
         // ASSERT
         assertNull(obj1, "Object 1 must be null");
         assertNotNull(obj2, "Object 2 must not be null");
+    }
+
+    @Test
+    @DisplayName("Array Equals test for getFirstThreeLettersOfAlphabet()")
+    public void testGetFirstThreeLettersOfAlphabetEquals() {
+
+        System.out.println("Running test: testGetFirstThreeLettersOfAlphabetEquals");
+
+        String[] stringArray = {"A", "B", "C"};
+
+        // ASSERT
+        assertArrayEquals(stringArray, demoUtils.getFirstThreeLettersOfAlphabet(), "Arrays should be the same");
+
+    }
+
+    @Test
+    @DisplayName("List Equals test for getAcademyInList()")
+    public void testGetAcademyInListEquals() {
+
+        System.out.println("Running test: testGetAcademyInListEquals");
+
+        List<String> list = List.of("hello", "world", "123");
+
+        // ASSERT
+        assertIterableEquals(list, demoUtils.getAcademyInList(), "Arrays should be the same");
+
+    }
+
+    @Test
+    @DisplayName("Test Exception for throwException()")
+    public void testThrowException() {
+
+        System.out.println("Running test: testThrowException");
+
+        // ASSERT
+        assertThrows(Exception.class, () -> demoUtils.throwException(-1), "Should throw exception!");
+        assertDoesNotThrow(() -> demoUtils.throwException(0), "Should not throw exception!");
+
+    }
+
+    @Test
+    @DisplayName("Test Timeout for checkTimeout()")
+    public void testCheckTimeout() {
+
+        System.out.println("Running test: testCheckTimeout");
+
+        // ASSERT
+        assertTimeoutPreemptively(Duration.ofSeconds(3), () -> demoUtils.checkTimeout(), "Method should execute in 3 seconds!");
+
     }
 }

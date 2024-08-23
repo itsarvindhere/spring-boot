@@ -71,4 +71,15 @@ public class MockAnnotationTest {
         assertEquals(88.31, result);
     }
 
+    @Test
+    @DisplayName("Not Null")
+    public void testAssertNotNull() {
+        when(applicationDao.checkNull(studentGrades.getMathGradeResults()))
+                .thenReturn(true);
+
+        Object result = applicationService.checkNull(collegeStudent.getStudentGrades().getMathGradeResults());
+
+        assertNotNull(result, "Object should not be null");
+    }
+
 }

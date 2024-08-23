@@ -82,4 +82,33 @@ public class MockAnnotationTest {
         assertNotNull(result, "Object should not be null");
     }
 
+
+    @Test
+    @DisplayName("Throws an Exception")
+    public void testThrowException() {
+
+        // Since it is a prototype bean, we will get a new instance each time we request it
+        CollegeStudent nullStudent = context.getBean("collegeStudent", CollegeStudent.class);
+
+        when(applicationDao.checkNull(nullStudent)).thenThrow(new RuntimeException());
+
+        assertThrows(RuntimeException.class, () -> applicationService.checkNull(nullStudent));
+    }
+
+    @Test
+    @DisplayName("Throws an Exception with two calls")
+    public void testThrowExceptionTwoCalls() {
+
+        // Since it is a prototype bean, we will get a new instance each time we request it
+        CollegeStudent nullStudent = context.getBean("collegeStudent", CollegeStudent.class);
+
+        when(applicationDao.checkNull(nullStudent))
+                .thenThrow(new RuntimeException())
+                .thenReturn("Do not throw exception the second time");
+
+        assertThrows(RuntimeException.class, () -> applicationService.checkNull(nullStudent));
+
+        assertEquals("Do not throw exception the second time", applicationService.checkNull(nullStudent));
+    }
+
 }

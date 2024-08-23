@@ -60,4 +60,15 @@ public class MockAnnotationTest {
         assertSame(applicationDao, second);
     }
 
+    @Test
+    @DisplayName("Find GPA")
+    public void assertEqualsTestFindGpa() {
+        when(applicationDao.findGradePointAverage(studentGrades.getMathGradeResults()))
+                .thenReturn(88.31);
+
+        double result = applicationService.findGradePointAverage(collegeStudent.getStudentGrades().getMathGradeResults());
+
+        assertEquals(88.31, result);
+    }
+
 }

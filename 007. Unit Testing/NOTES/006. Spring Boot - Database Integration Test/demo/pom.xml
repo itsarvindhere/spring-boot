@@ -10,7 +10,7 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>com.luv2code</groupId>
+	<groupId>com.example</groupId>
 	<artifactId>spring-boot-mvc-testing-demo</artifactId>
 	<version>1.0.0</version>
 	<packaging>war</packaging>

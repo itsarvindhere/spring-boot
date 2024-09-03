@@ -31,6 +31,23 @@ public class GradebookController {
 	@PostMapping("/")
 	public String createStudent(@ModelAttribute("student") CollegeStudent student, Model m) {
 		studentAndGradeService.createStudent(student.getFirstname(), student.getLastname(), student.getEmailAddress());
+
+		Iterable<CollegeStudent> collegeStudentIterable = this.studentAndGradeService.getGradebook();
+		m.addAttribute("students", collegeStudentIterable);
+
+		return "index";
+	}
+
+	@GetMapping("/delete/student/{id}")
+	public String deleteStudent(@PathVariable int id, Model m) {
+
+		if(!studentAndGradeService.checkIfStudentExists(id)) return "error";
+
+		studentAndGradeService.deleteStudent(id);
+
+		Iterable<CollegeStudent> collegeStudentIterable = this.studentAndGradeService.getGradebook();
+		m.addAttribute("students", collegeStudentIterable);
+
 		return "index";
 	}
 

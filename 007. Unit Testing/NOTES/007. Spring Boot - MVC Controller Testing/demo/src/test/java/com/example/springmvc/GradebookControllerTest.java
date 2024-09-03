@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.spring6.expression.Mvc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource("/application.properties")
@@ -101,6 +103,15 @@ public class GradebookControllerTest {
     @Test
     public void createStudentHttpRequestTest() throws Exception {
 
+        CollegeStudent studentOne = new CollegeStudent("Eric", "Roby", "ericroby@gmail.com");
+
+        List<CollegeStudent> studentList = new ArrayList<>();
+        studentList.add(studentOne);
+
+        when(studentAndGradeServiceMock.getGradebook()).thenReturn(studentList);
+
+        assertIterableEquals(studentList, studentAndGradeServiceMock.getGradebook());
+
         MvcResult result = mockMvc.perform(
                 post("/")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -118,6 +129,39 @@ public class GradebookControllerTest {
         CollegeStudent verifyStudent = studentRepository.findByEmailAddress("johndoe@gmail.com");
 
         assertNotNull(verifyStudent, "Student should be present in the database!");
+    }
 
+    @Test
+    public void deleteStudentHttpRequestTest() throws Exception {
+
+        assertTrue(studentRepository.findById(1).isPresent());
+
+        MvcResult result = mockMvc.perform(
+                get("/delete/student/{id}", 1))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView modelAndView = result.getModelAndView();
+
+        if (modelAndView != null) {
+            ModelAndViewAssert.assertViewName(modelAndView, "index");
+        }
+
+        assertFalse(studentRepository.findById(1).isPresent());
+    }
+
+    @Test
+    public void deleteStudentHttpRequestErrorPageTest() throws Exception {
+
+        assertFalse(studentRepository.findById(123).isPresent());
+
+        MvcResult result = mockMvc.perform(
+                        get("/delete/student/{id}", 123))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView modelAndView = result.getModelAndView();
+
+        if (modelAndView != null) {
+            ModelAndViewAssert.assertViewName(modelAndView, "error");
+        }
     }
 }

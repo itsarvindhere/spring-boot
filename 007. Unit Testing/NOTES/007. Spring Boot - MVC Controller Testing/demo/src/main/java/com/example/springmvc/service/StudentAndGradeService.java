@@ -7,4 +7,5 @@ public interface StudentAndGradeService {
     public boolean checkIfStudentExists(int id);
     public void deleteStudent(int id);
     public Iterable<CollegeStudent> getGradebook();
+    public boolean createGrade(double grade, int id, String gradeType);
 }

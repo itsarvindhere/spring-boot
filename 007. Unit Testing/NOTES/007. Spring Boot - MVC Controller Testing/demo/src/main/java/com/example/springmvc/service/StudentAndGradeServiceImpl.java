@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -127,28 +128,24 @@ public class StudentAndGradeServiceImpl implements StudentAndGradeService{
 
     @Override
     public CollegeStudent getStudentInformation(int id) {
-        Optional<CollegeStudent> student = studentRepository.findById(id);
-
-        if (student.isPresent()) {
-            Iterable<MathGrade> mathGradeIterable = mathGradeRepository.findGradeByStudentId(id);
-            List<MathGrade> mathGrades = new ArrayList<>();
-            mathGradeIterable.forEach(mathGrades::add);
-
-            Iterable<ScienceGrade> scienceGradeIterable = scienceGradeRepository.findGradeByStudentId(id);
-            List<ScienceGrade> scienceGrades = new ArrayList<>();
-            scienceGradeIterable.forEach(scienceGrades::add);
-
-            Iterable<HistoryGrade> historyGradeIterable = historyGradeRepository.findGradeByStudentId(id);
-            List<HistoryGrade> historyGrades = new ArrayList<>();
-            historyGradeIterable.forEach(historyGrades::add);
-
-            student.get().setMathGrades(mathGrades);
-            student.get().setScienceGrades(scienceGrades);
-            student.get().setHistoryGrades(historyGrades);
+        Optional<CollegeStudent> studentOptional = studentRepository.findById(id);
+        if (studentOptional.isPresent()) {
+            return this.getStudentDetailsWithGrades(id);
         }
+        return null;
+    }
 
-        return student.orElse(null);
+    public CollegeStudent getStudentDetailsWithGrades(int id) {
+        CollegeStudent student = entityManager.createQuery("FROM CollegeStudent s JOIN FETCH s.mathGrades WHERE s.id = :id", CollegeStudent.class)
+                .setParameter("id", id).getSingleResult();
 
+        student = entityManager.createQuery("FROM CollegeStudent s JOIN FETCH s.scienceGrades WHERE s.id = :id", CollegeStudent.class)
+                .setParameter("id", id).getSingleResult();
+
+        student = entityManager.createQuery("FROM CollegeStudent s JOIN FETCH s.historyGrades WHERE s.id = :id", CollegeStudent.class)
+                .setParameter("id", id).getSingleResult();
+
+        return student;
     }
 
 

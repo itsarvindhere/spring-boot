@@ -21,6 +21,7 @@ import org.springframework.test.context.jdbc.Sql;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -101,8 +102,23 @@ public class StudentAndGradeServiceTest {
     public void deleteStudentTest() {
         assertTrue(studentService.checkIfStudentExists(1), "Student with id 1 should exist in the database");
 
+        Optional<MathGrade> mathGrade = mathGradeRepository.findById(1);
+        Optional<ScienceGrade> scienceGrade = scienceGradeRepository.findById(1);
+        Optional<HistoryGrade> historyGrade = historyGradeRepository.findById(1);
+
+        assertTrue(mathGrade.isPresent());
+        assertTrue(scienceGrade.isPresent());
+        assertTrue(historyGrade.isPresent());
+
         studentService.deleteStudent(1);
 
+        mathGrade = mathGradeRepository.findById(1);
+        scienceGrade = scienceGradeRepository.findById(1);
+        historyGrade = historyGradeRepository.findById(1);
+
+        assertFalse(mathGrade.isPresent());
+        assertFalse(scienceGrade.isPresent());
+        assertFalse(historyGrade.isPresent());
         assertFalse(studentService.checkIfStudentExists(1), "Student with id 1 should no longer exist in the database");
     }
 
@@ -155,5 +171,46 @@ public class StudentAndGradeServiceTest {
 
         // Invalid Grade Subject
         assertFalse(studentService.createGrade(80.50, 1, "geography"));
+    }
+
+    @Test
+    public void deleteGradeTest() {
+        assertEquals(1, studentService.deleteGrade(1, "math"), "Returns student id after delete");
+        assertEquals(1, studentService.deleteGrade(1, "science"), "Returns student id after delete");
+        assertEquals(1, studentService.deleteGrade(1, "history"), "Returns student id after delete");
+    }
+
+    @Test
+    public void deleteGradeInvalidTest() {
+
+        // Invalid Grade Id
+        assertEquals(0, studentService.deleteGrade(123, "math"), "Returns 0 as the passed student id is not present in database");
+
+        // Invalid Grade type
+        assertEquals(0, studentService.deleteGrade(1, "geography"), "Returns 0 as the passed grade type is invalid");
+    }
+
+    @Test
+    public void studentInformationTest() {
+
+        CollegeStudent student = studentService.getStudentInformation(1);
+
+        assertNotNull(student);
+        assertEquals(1, student.getId());
+        assertEquals("Eric", student.getFirstname());
+        assertEquals("Roby", student.getLastname());
+        assertEquals("ericroby@gmail.com", student.getEmailAddress());
+
+        assertEquals(1,student.getMathGrades().size());
+        assertEquals(1,student.getScienceGrades().size());
+        assertEquals(1,student.getHistoryGrades().size());
+
+    }
+
+    @Test
+    public void studentInformationInvalidTest() {
+        CollegeStudent student = studentService.getStudentInformation(123);
+
+        assertNull(student);
     }
 }

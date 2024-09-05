@@ -8,4 +8,6 @@ public interface StudentAndGradeService {
     public void deleteStudent(int id);
     public Iterable<CollegeStudent> getGradebook();
     public boolean createGrade(double grade, int id, String gradeType);
+    public int deleteGrade(int id, String gradeType);
+    public CollegeStudent getStudentInformation(int id);
 }

@@ -5,10 +5,14 @@ import com.example.springmvc.repository.HistoryGradeRepository;
 import com.example.springmvc.repository.MathGradeRepository;
 import com.example.springmvc.repository.ScienceGradeRepository;
 import com.example.springmvc.repository.StudentRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,17 +24,21 @@ public class StudentAndGradeServiceImpl implements StudentAndGradeService{
     private final ScienceGradeRepository scienceGradeRepository;
     private final HistoryGradeRepository historyGradeRepository;
 
+    private final EntityManager entityManager;
+
     @Autowired
     public StudentAndGradeServiceImpl(
             StudentRepository studentRepository,
             MathGradeRepository mathGradeRepository,
             ScienceGradeRepository scienceGradeRepository,
-            HistoryGradeRepository historyGradeRepository
+            HistoryGradeRepository historyGradeRepository,
+            EntityManager entityManager
     ) {
         this.studentRepository = studentRepository;
         this.mathGradeRepository = mathGradeRepository;
         this.scienceGradeRepository = scienceGradeRepository;
         this.historyGradeRepository = historyGradeRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -88,4 +96,60 @@ public class StudentAndGradeServiceImpl implements StudentAndGradeService{
         }
         return false;
     }
+
+    @Override
+    public int deleteGrade(int id, String gradeType) {
+        int deletedGradeId = 0;
+
+        switch (gradeType) {
+            case "math" -> {
+                Optional<MathGrade> grade = mathGradeRepository.findById(id);
+                if (grade.isEmpty()) return deletedGradeId;
+                deletedGradeId = grade.get().getStudentId();
+                mathGradeRepository.deleteById(id);
+            }
+            case "science" -> {
+                Optional<ScienceGrade> grade = scienceGradeRepository.findById(id);
+                if (grade.isEmpty()) return deletedGradeId;
+                deletedGradeId = grade.get().getStudentId();
+                scienceGradeRepository.deleteById(id);
+            }
+            case "history" -> {
+                Optional<HistoryGrade> grade = historyGradeRepository.findById(id);
+                if (grade.isEmpty()) return deletedGradeId;
+                deletedGradeId = grade.get().getStudentId();
+                historyGradeRepository.deleteById(id);
+            }
+        }
+
+        return deletedGradeId;
+    }
+
+    @Override
+    public CollegeStudent getStudentInformation(int id) {
+        Optional<CollegeStudent> student = studentRepository.findById(id);
+
+        if (student.isPresent()) {
+            Iterable<MathGrade> mathGradeIterable = mathGradeRepository.findGradeByStudentId(id);
+            List<MathGrade> mathGrades = new ArrayList<>();
+            mathGradeIterable.forEach(mathGrades::add);
+
+            Iterable<ScienceGrade> scienceGradeIterable = scienceGradeRepository.findGradeByStudentId(id);
+            List<ScienceGrade> scienceGrades = new ArrayList<>();
+            scienceGradeIterable.forEach(scienceGrades::add);
+
+            Iterable<HistoryGrade> historyGradeIterable = historyGradeRepository.findGradeByStudentId(id);
+            List<HistoryGrade> historyGrades = new ArrayList<>();
+            historyGradeIterable.forEach(historyGrades::add);
+
+            student.get().setMathGrades(mathGrades);
+            student.get().setScienceGrades(scienceGrades);
+            student.get().setHistoryGrades(historyGrades);
+        }
+
+        return student.orElse(null);
+
+    }
+
+
 }

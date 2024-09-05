@@ -3,6 +3,8 @@ package com.example.springmvc.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "student")
 public class CollegeStudent implements Student {
@@ -15,6 +17,18 @@ public class CollegeStudent implements Student {
     private String lastname;
     @Column(name="email_address")
     private String emailAddress;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id")
+    private List<MathGrade> mathGrades;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id")
+    private List<ScienceGrade> scienceGrades;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id")
+    private List<HistoryGrade> historyGrades;
 
     public CollegeStudent() {
 
@@ -58,6 +72,29 @@ public class CollegeStudent implements Student {
         this.emailAddress = emailAddress;
     }
 
+    public List<MathGrade> getMathGrades() {
+        return mathGrades;
+    }
+
+    public void setMathGrades(List<MathGrade> mathGrades) {
+        this.mathGrades = mathGrades;
+    }
+
+    public List<ScienceGrade> getScienceGrades() {
+        return scienceGrades;
+    }
+
+    public void setScienceGrades(List<ScienceGrade> scienceGrades) {
+        this.scienceGrades = scienceGrades;
+    }
+
+    public List<HistoryGrade> getHistoryGrades() {
+        return historyGrades;
+    }
+
+    public void setHistoryGrades(List<HistoryGrade> historyGrades) {
+        this.historyGrades = historyGrades;
+    }
 
     public String getFullName() {
         return getFirstname() + " " + getLastname();

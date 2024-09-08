@@ -10,6 +10,7 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import javax.swing.text.html.Option;
 import java.util.ArrayList;
@@ -100,52 +101,89 @@ public class StudentAndGradeServiceImpl implements StudentAndGradeService{
 
     @Override
     public int deleteGrade(int id, String gradeType) {
-        int deletedGradeId = 0;
+        int studentIdOfDeletedGrade = 0;
 
         switch (gradeType) {
             case "math" -> {
                 Optional<MathGrade> grade = mathGradeRepository.findById(id);
-                if (grade.isEmpty()) return deletedGradeId;
-                deletedGradeId = grade.get().getStudentId();
+                if (grade.isEmpty()) return studentIdOfDeletedGrade;
+                studentIdOfDeletedGrade = grade.get().getStudentId();
                 mathGradeRepository.deleteById(id);
             }
             case "science" -> {
                 Optional<ScienceGrade> grade = scienceGradeRepository.findById(id);
-                if (grade.isEmpty()) return deletedGradeId;
-                deletedGradeId = grade.get().getStudentId();
+                if (grade.isEmpty()) return studentIdOfDeletedGrade;
+                studentIdOfDeletedGrade = grade.get().getStudentId();
                 scienceGradeRepository.deleteById(id);
             }
             case "history" -> {
                 Optional<HistoryGrade> grade = historyGradeRepository.findById(id);
-                if (grade.isEmpty()) return deletedGradeId;
-                deletedGradeId = grade.get().getStudentId();
+                if (grade.isEmpty()) return studentIdOfDeletedGrade;
+                studentIdOfDeletedGrade = grade.get().getStudentId();
                 historyGradeRepository.deleteById(id);
             }
         }
 
-        return deletedGradeId;
+        return studentIdOfDeletedGrade;
     }
 
     @Override
     public CollegeStudent getStudentInformation(int id) {
         Optional<CollegeStudent> studentOptional = studentRepository.findById(id);
         if (studentOptional.isPresent()) {
-            return this.getStudentDetailsWithGrades(id);
+            return this.getStudentDetailsWithGrades(studentOptional.get(), id);
         }
         return null;
     }
 
-    public CollegeStudent getStudentDetailsWithGrades(int id) {
-        CollegeStudent student = entityManager.createQuery("FROM CollegeStudent s JOIN FETCH s.mathGrades WHERE s.id = :id", CollegeStudent.class)
-                .setParameter("id", id).getSingleResult();
+    private CollegeStudent getStudentDetailsWithGrades(CollegeStudent student, int id) {
 
+        try {
+            student = entityManager.createQuery("FROM CollegeStudent s JOIN FETCH s.mathGrades WHERE s.id = :id", CollegeStudent.class)
+                    .setParameter("id", id).getSingleResult();
+        } catch(Exception ignored) {}
+
+
+        try {
         student = entityManager.createQuery("FROM CollegeStudent s JOIN FETCH s.scienceGrades WHERE s.id = :id", CollegeStudent.class)
                 .setParameter("id", id).getSingleResult();
+        } catch(Exception ignored) {}
 
+        try {
         student = entityManager.createQuery("FROM CollegeStudent s JOIN FETCH s.historyGrades WHERE s.id = :id", CollegeStudent.class)
                 .setParameter("id", id).getSingleResult();
+        } catch(Exception ignored) {}
 
         return student;
+    }
+
+    public void configureStudentInformationModel(int id, Model m) {
+
+        CollegeStudent student = getStudentInformation(id);
+
+        m.addAttribute("student", student);
+
+        List<Grade> mathGrades = new ArrayList<>(student.getMathGrades());
+        List<Grade> scienceGrades = new ArrayList<>(student.getScienceGrades());
+        List<Grade> historyGrades = new ArrayList<>(student.getHistoryGrades());
+        StudentGrades studentGrades = new StudentGrades();
+        if(!mathGrades.isEmpty()){
+            m.addAttribute("mathAverage", studentGrades.findGradePointAverage(mathGrades));
+        } else {
+            m.addAttribute("mathAverage", "N/A");
+        }
+
+        if(!scienceGrades.isEmpty()){
+            m.addAttribute("scienceAverage", studentGrades.findGradePointAverage(scienceGrades));
+        } else {
+            m.addAttribute("scienceAverage", "N/A");
+        }
+
+        if(!historyGrades.isEmpty()){
+            m.addAttribute("historyAverage", studentGrades.findGradePointAverage(historyGrades));
+        } else {
+            m.addAttribute("historyAverage", "N/A");
+        }
     }
 
 
